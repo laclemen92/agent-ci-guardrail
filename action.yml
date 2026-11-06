@@ -1,0 +1,31 @@
+name: Agent CI guardrail
+description: Runs only quick checks while an AI coding agent's work is in progress, and the full suite once its PR is ready for review.
+author: laclemen92
+branding:
+  icon: shield
+  color: green
+inputs:
+  token:
+    description: Token for two read-only lookups (the branch's open PR, the head commit's message).
+    default: ${{ github.token }}
+  full-label:
+    description: PR label that forces the full suite.
+    default: ci:full
+  agents:
+    description: Agents to guard, comma-separated (Copilot, Claude, Codex, Cursor, Devin, Jules, Aider, Gemini), or "all".
+    default: all
+  include-assisted:
+    description: Also guard people pushing agent-written commits (found by co-author markers).
+    default: "false"
+outputs:
+  mode:
+    description: '"light" (agent work in progress) or "full".'
+  full:
+    description: '"true" when the full suite should run.'
+  agent:
+    description: The agent behind this run, if any.
+  reason:
+    description: Why, in one line.
+runs:
+  using: node24
+  main: dist/index.mjs
