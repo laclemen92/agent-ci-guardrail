@@ -15,8 +15,8 @@ inputs:
     description: Agents to guard, comma-separated (Copilot, Claude, Codex, Cursor, Devin, Jules, Aider, Gemini), or "all".
     default: all
   include-assisted:
-    description: Also guard people pushing agent-written commits (found by co-author markers).
-    default: "false"
+    description: Guard people pushing agent-written commits (found by co-author markers), as local agents like Claude Code, Codex CLI and Cursor push as the person. Set to "false" to treat those pushes as the person's.
+    default: "true"
 outputs:
   mode:
     description: '"light" (agent work in progress) or "full".'

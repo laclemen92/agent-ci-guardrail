@@ -94,15 +94,15 @@ describe("decide", () => {
     ).toMatchObject({ mode: "full" });
   });
 
-  it("treats agent-assisted pushes as a person's unless asked", () => {
+  it("guards agent-assisted pushes (local agents push as the person) unless turned off", () => {
     const assisted = ctx({
       event: "push",
       commitMessage: "Fix\n\nCo-authored-by: Claude <noreply@anthropic.com>",
     });
-    expect(decide(assisted)).toMatchObject({ mode: "full" });
+    expect(decide(assisted)).toMatchObject({ mode: "light", agent: "Claude" });
     expect(
-      decide(assisted, { ...DEFAULT_OPTIONS, includeAssisted: true }),
-    ).toMatchObject({ mode: "light", agent: "Claude" });
+      decide(assisted, { ...DEFAULT_OPTIONS, includeAssisted: false }),
+    ).toMatchObject({ mode: "full" });
   });
 
   it("never goes light if the workflow won't re-run when the PR is ready", () => {

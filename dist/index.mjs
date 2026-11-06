@@ -187,7 +187,7 @@ function attributeRun(run2, workflowContent) {
 var DEFAULT_OPTIONS = {
   fullLabel: "ci:full",
   agents: "all",
-  includeAssisted: false
+  includeAssisted: true
 };
 var CODE_EVENTS2 = /* @__PURE__ */ new Set(["push", "pull_request", "pull_request_target"]);
 function decide(ctx, options2 = DEFAULT_OPTIONS) {
@@ -286,7 +286,7 @@ function options(env) {
   return {
     fullLabel: input("full-label") || DEFAULT_OPTIONS.fullLabel,
     agents: !agents || agents.toLowerCase() === "all" ? "all" : agents.split(",").map((a) => a.trim()).filter(Boolean),
-    includeAssisted: input("include-assisted").toLowerCase() === "true"
+    includeAssisted: input("include-assisted").toLowerCase() !== "false"
   };
 }
 function getJson(env, fetchFn) {

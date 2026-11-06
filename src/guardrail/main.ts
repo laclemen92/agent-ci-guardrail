@@ -48,7 +48,7 @@ export function options(env: NodeJS.ProcessEnv): GuardOptions {
             .split(",")
             .map((a) => a.trim())
             .filter(Boolean) as AgentName[]),
-    includeAssisted: input("include-assisted").toLowerCase() === "true",
+    includeAssisted: input("include-assisted").toLowerCase() !== "false",
   };
 }
 

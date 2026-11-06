@@ -4,7 +4,7 @@ AI coding agents push often: 3–5 times per PR in the repos we measured, and ea
 full CI. 48–88% of what their PRs cost in CI goes on pushes that a later push replaced.
 
 This Action lets an agent's **work in progress** run only your quick checks, and runs the
-**full suite once its PR is ready for review**. People's pushes are never affected.
+**full suite once its PR is ready for review**. People's own pushes are never affected.
 
 | Run                                                                          | Gets  |
 | ---------------------------------------------------------------------------- | ----- |
@@ -15,7 +15,10 @@ This Action lets an agent's **work in progress** run only your quick checks, and
 | Anything the guard can't work out, or any error                              | full  |
 
 Agents are recognised by account (Copilot, `claude[bot]`, Codex, Cursor, Devin, Jules), by the
-PR's author, and by default branch names (`copilot/`, `codex/`, `claude/`…).
+PR's author, by default branch names (`copilot/`, `codex/`, `claude/`…), and by the co-author
+markers local agents add to commits. Claude Code, Codex CLI and Cursor push as **you**, so their
+commits are recognised by those markers (`Co-Authored-By: Claude …`). Set
+`include-assisted: false` to treat those pushes as yours instead.
 
 ## Usage
 
@@ -64,12 +67,12 @@ word on code that merges.
 
 ## Inputs
 
-| Input              | Default        |                                                                                                    |
-| ------------------ | -------------- | -------------------------------------------------------------------------------------------------- |
-| `full-label`       | `ci:full`      | PR label that forces the full suite                                                                |
-| `agents`           | `all`          | Agents to guard, comma-separated (`Copilot, Codex`)                                                |
-| `include-assisted` | `false`        | Also guard people pushing agent-written commits (co-author markers)                                |
-| `token`            | `github.token` | Used for at most three read-only lookups: the workflow file, the branch's open PR, the head commit |
+| Input              | Default        |                                                                                                      |
+| ------------------ | -------------- | ---------------------------------------------------------------------------------------------------- |
+| `full-label`       | `ci:full`      | PR label that forces the full suite                                                                  |
+| `agents`           | `all`          | Agents to guard, comma-separated (`Copilot, Codex`)                                                  |
+| `include-assisted` | `true`         | Guard agent-written commits a person pushed (co-author markers); `false` treats them as the person's |
+| `token`            | `github.token` | Used for at most three read-only lookups: the workflow file, the branch's open PR, the head commit   |
 
 ## Outputs
 

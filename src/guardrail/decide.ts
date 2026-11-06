@@ -34,8 +34,10 @@ export interface GuardOptions {
   /** Agents to guard, or "all". */
   agents: AgentName[] | "all";
   /**
-   * Also guard agent-assisted pushes (a person pushing agent-written
-   * commits). Off by default: a person iterating is treated like a person.
+   * Also guard agent-assisted pushes: a person pushing agent-written
+   * commits (co-author markers). On by default, since local agents (Claude
+   * Code, Codex CLI, Cursor) push as the person; turn off to treat those
+   * pushes as the person's.
    */
   includeAssisted: boolean;
 }
@@ -43,7 +45,7 @@ export interface GuardOptions {
 export const DEFAULT_OPTIONS: GuardOptions = {
   fullLabel: "ci:full",
   agents: "all",
-  includeAssisted: false,
+  includeAssisted: true,
 };
 
 export interface GuardDecision {
